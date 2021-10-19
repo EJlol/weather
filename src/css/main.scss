@@ -1,0 +1,38 @@
+$dark-text-color: #212529;
+$background-color: #f8f9fa;
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: smooth;
+    }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: $background-color;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    font-synthesis: none;
+    color: $dark-text-color;
+    min-height: 100vh;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.2;
+    margin: 0;
+}
+
+img, svg {
+    max-width: 100%;
+    display: block;
+}
