@@ -6,7 +6,8 @@ A simple weather app.
 
 ## Installation
 
-```npm install
+```
+npm install
 npm run serve
 ```
 
