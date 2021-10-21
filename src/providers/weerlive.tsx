@@ -54,15 +54,15 @@ interface api {
 }
 
 class WeerLiveProvider {
-    static url: RequestInfo = 'http://weerlive.nl/api/json-data-10min.php?key=' + process.env.WEERLIVE_API_KEY + '&locatie=Amsterdam';
+    static url: RequestInfo = 'http://weerlive.nl/api/json-data-10min.php?key=' + process.env.WEERLIVE_API_KEY + '&locatie=';
 
     constructor() {
 
     }
 
-    fetchWeather(): Promise<DayReports> {
+    fetchWeather(location: string): Promise<DayReports> {
         const promise : Promise<DayReports> = new Promise((resolve, reject) => {
-            fetch(WeerLiveProvider.url)
+            fetch(WeerLiveProvider.url + location)
                 .then(response => {
                     if (!response.ok) {
                         reject(response.statusText);
