@@ -1,0 +1,56 @@
+@use '../variables';
+
+.location-select-container {
+    display: grid;
+    grid-template-areas: 'select';
+    align-items: center;
+
+    margin: 1rem;
+    padding: 0 1em;
+}
+
+.location-select-container::after {
+    grid-area: select;
+    justify-self: end;
+
+    margin-right: 0.5em;
+
+    content: '';
+    width: calc(0.5em + 1vw);
+    height: calc(0.5em + 1vw);
+    background-color: variables.$light-color;
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+
+    @media (prefers-color-scheme: dark) {
+        background-color: variables.$light-color-dark-mode;
+    }
+}
+
+.location-select {
+    grid-area: select;
+
+    font-size: calc(1em + 2vw);
+    display: grid;
+
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid variables.$light-color;
+    outline: none;
+    cursor: pointer;
+
+    text-align: center;
+
+    @media (prefers-color-scheme: dark) {
+        border-bottom: 1px solid variables.$light-color-dark-mode;
+    }
+}
+
+.location-select:focus-within {
+    outline: 2px solid variables.$light-color;
+    border-bottom: none;
+
+    @media (prefers-color-scheme: dark) {
+        outline: 2px solid variables.$light-color-dark-mode;
+    }
+}

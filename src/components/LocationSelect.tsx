@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 
+import '../css/components/LocationSelect.scss';
 import Location from './Location';
 
 interface LocationSelectProps {
@@ -21,9 +22,11 @@ class LocationSelect extends Component<LocationSelectProps, {}> {
     render() {
         const { locations } = this.props;
         return (
-            <select onChange={this.handleChange}>
-                {locations.map((location) => (<Location name={location} />))}
-            </select>
+            <div className="location-select-container">
+                <select className="location-select" onChange={this.handleChange}>
+                    {locations.map((location) => (<Location name={location} />))}
+                </select>
+            </div>
         );
     }
 }

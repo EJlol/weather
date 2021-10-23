@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 
-import './css/App.css';
+import '../css/components/App.scss';
 
-import Units from './i18n/units';
-import LocationSelect from './components/LocationSelect';
-import WeerliveProvider from './providers/weerlive';
+import LocationSelect from './LocationSelect';
+import WeerliveProvider from '../providers/weerlive';
+import CurrentWeather from './CurrentWeather';
 
 interface AppState {
   temperature: number,
@@ -61,22 +61,14 @@ class App extends Component<{}, AppState> {
     }
 
     render() {
-        const { locations, location, temperature } = this.state;
+        const { locations, temperature } = this.state;
         return (
             <div className="App">
-                <h1>
-                    De temperatuur in
-                    {' '}
-                    {location}
-                    {' '}
-                    is vandaag
-                    {' '}
-                    <span id="temperature">{Units.temperature(temperature)}</span>
-                </h1>
                 <LocationSelect
                     locations={locations}
                     onLocationChange={this.handleLocationChange}
                 />
+                <CurrentWeather temperature={temperature} />
             </div>
         );
     }

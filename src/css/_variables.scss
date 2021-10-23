@@ -1,0 +1,6 @@
+@use "sass:color";
+
+$light-color: #fff;
+$light-color-dark-mode: color.scale($light-color, $lightness: -40%);
+$background-color: #0B5394;
+$background-color-dark-mode: color.scale($background-color, $lightness: -50%);
