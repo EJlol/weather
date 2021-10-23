@@ -20,6 +20,7 @@
     height: calc(0.5em + 1vw);
     background-color: variables.$light-color;
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    pointer-events: none;
 
     @media (prefers-color-scheme: dark) {
         background-color: variables.$light-color-dark-mode;
@@ -44,6 +45,10 @@
     @media (prefers-color-scheme: dark) {
         border-bottom: 1px solid variables.$light-color-dark-mode;
     }
+}
+
+.location-select optgroup {
+    font-size: calc(1em + 0.1vw);
 }
 
 .location-select:focus-within {

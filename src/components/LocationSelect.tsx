@@ -24,7 +24,9 @@ class LocationSelect extends Component<LocationSelectProps, {}> {
         return (
             <div className="location-select-container">
                 <select className="location-select" onChange={this.handleChange}>
-                    {locations.map((location) => (<Location name={location} />))}
+                    <optgroup>
+                        {locations.map((location) => (<Location name={location} />))}
+                    </optgroup>
                 </select>
             </div>
         );
