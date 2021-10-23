@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { hot } from "react-hot-loader";
+import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 
-import "./css/App.css";
+import './css/App.css';
 
 import Units from './i18n/units';
-import LocationSelect from "./components/LocationSelect";
+import LocationSelect from './components/LocationSelect';
 import WeerliveProvider from './providers/weerlive';
 
 interface AppState {
@@ -14,65 +14,72 @@ interface AppState {
 }
 
 class App extends Component<{}, AppState> {
-  weerliveProvider: WeerliveProvider;
+    constructor(props: {}) {
+        super(props);
 
-  constructor(props: {}) {
-    super(props);
+        this.state = {
+            temperature: 0,
+            location: '',
+            locations: [],
+        };
 
-    this.weerliveProvider = new WeerliveProvider();
-    this.state = {
-      temperature: 0,
-      location: '',
-      locations: []
-    };
-
-    this.handleLocationChange = this.handleLocationChange.bind(this);
-  }
-
-  componentDidMount() {
-    fetch('locations.json')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          locations: data,
-          location: data[0]
-        });
-      })
-      .catch(reason => console.log(reason));
-  }
-
-  componentDidUpdate(previousProps: {}, previousState: AppState) {
-    if (this.state.location !== previousState.location) {
-      this.weerliveProvider.fetchWeather(this.state.location)
-        .then(data => {
-          this.setState({
-            temperature: data[0].temperature,
-            location: data[0].location
-          });
-        })
-        .catch(reason => console.log(reason));
+        this.handleLocationChange = this.handleLocationChange.bind(this);
     }
-  }
 
-  handleLocationChange(location: string) {
-    this.weerliveProvider.fetchWeather(location)
-      .then(data => {
-        this.setState({
-          temperature: data[0].temperature,
-          location: data[0].location
-        });
-      })
-      .catch(reason => console.log(reason));
-  }
+    componentDidMount() {
+        fetch('locations.json')
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({
+                    locations: data,
+                    location: data[0],
+                });
+            })
+            .catch((reason) => console.error(reason));
+    }
 
-  render() {
-    return (
-      <div className="App">
-        <h1> De temperatuur in {this.state.location} is vandaag <span id="temperature">{Units.temperature(this.state.temperature)}</span></h1>
-        <LocationSelect locations={this.state.locations} onLocationChange={this.handleLocationChange}></LocationSelect>
-      </div>
-    );
-  }
+    componentDidUpdate(previousProps: {}, previousState: AppState) {
+        const { location } = this.state;
+        if (location !== previousState.location) {
+            this.updateWeather(location);
+        }
+    }
+
+    handleLocationChange(location: string) {
+        this.updateWeather(location);
+    }
+
+    updateWeather(location: string) {
+        WeerliveProvider.fetchWeather(location)
+            .then((data) => {
+                this.setState({
+                    temperature: data[0].temperature,
+                    location: data[0].location,
+                });
+            })
+            .catch((reason) => console.error(reason));
+    }
+
+    render() {
+        const { locations, location, temperature } = this.state;
+        return (
+            <div className="App">
+                <h1>
+                    De temperatuur in
+                    {' '}
+                    {location}
+                    {' '}
+                    is vandaag
+                    {' '}
+                    <span id="temperature">{Units.temperature(temperature)}</span>
+                </h1>
+                <LocationSelect
+                    locations={locations}
+                    onLocationChange={this.handleLocationChange}
+                />
+            </div>
+        );
+    }
 }
 
 export default hot(module)(App);
