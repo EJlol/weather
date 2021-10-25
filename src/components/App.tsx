@@ -19,7 +19,7 @@ class App extends Component<{}, AppState> {
 
         this.state = {
             temperature: 0,
-            location: '',
+            location: localStorage.getItem('location') ?? 'Amsterdam',
             locations: [],
         };
 
@@ -30,10 +30,8 @@ class App extends Component<{}, AppState> {
         fetch('locations.json')
             .then((response) => response.json())
             .then((data) => {
-                this.setState({
-                    locations: data,
-                    location: data[0],
-                });
+                this.setState({ locations: data });
+                this.updateWeather();
             })
             .catch((reason) => console.error(reason));
     }
@@ -41,31 +39,31 @@ class App extends Component<{}, AppState> {
     componentDidUpdate(previousProps: {}, previousState: AppState) {
         const { location } = this.state;
         if (location !== previousState.location) {
-            this.updateWeather(location);
+            localStorage.setItem('location', location);
+            this.updateWeather();
         }
     }
 
     handleLocationChange(location: string) {
-        this.updateWeather(location);
+        this.setState({ location, temperature: 0 });
     }
 
-    updateWeather(location: string) {
+    updateWeather() {
+        const { location } = this.state;
         WeerliveProvider.fetchWeather(location)
             .then((data) => {
-                this.setState({
-                    temperature: data[0].temperature,
-                    location: data[0].location,
-                });
+                this.setState({ temperature: data[0].temperature });
             })
             .catch((reason) => console.error(reason));
     }
 
     render() {
-        const { locations, temperature } = this.state;
+        const { locations, location, temperature } = this.state;
         return (
             <div className="App">
                 <LocationSelect
                     locations={locations}
+                    selectedLocation={location}
                     onLocationChange={this.handleLocationChange}
                 />
                 <CurrentWeather temperature={temperature} />

@@ -5,6 +5,7 @@ import Location from './Location';
 
 interface LocationSelectProps {
   locations: Array<string>,
+  selectedLocation: string,
   onLocationChange: Function
 }
 
@@ -20,12 +21,18 @@ class LocationSelect extends Component<LocationSelectProps, {}> {
     }
 
     render() {
-        const { locations } = this.props;
+        const { locations, selectedLocation } = this.props;
+        if (locations.length === 0) {
+            locations.push(selectedLocation);
+        }
+
         return (
             <div className="location-select-container">
-                <select className="location-select" onChange={this.handleChange}>
+                <select className="location-select" onChange={this.handleChange} value={selectedLocation}>
                     <optgroup>
-                        {locations.map((location) => (<Location name={location} />))}
+                        {
+                            locations.map((location) => (<Location name={location} />))
+                        }
                     </optgroup>
                 </select>
             </div>
